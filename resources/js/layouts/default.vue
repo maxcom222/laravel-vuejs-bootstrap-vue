@@ -10,12 +10,14 @@
 
 <script>
 import Navbar from '~/components/Navbar'
+import Child from '~/components/Child'
 
 export default {
-  name: 'MainLayout',
+    name: 'MainLayout',
 
-  components: {
-    Navbar
-  }
+    components: {
+        Navbar,
+        Child
+    }
 }
 </script>
