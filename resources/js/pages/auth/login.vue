@@ -1,63 +1,35 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card :title="'Log In'">
-        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
-          <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Email</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Password</label>
-            <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-              <has-error :form="form" field="password" />
-            </div>
-          </div>
-
-          <!-- Remember Me -->
-          <div class="form-group row">
-            <div class="col-md-3" />
-            <div class="col-md-7 d-flex">
-              <checkbox v-model="remember" name="remember">
-                  Remember Me
-              </checkbox>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-md-7 offset-md-3 d-flex">
-              <v-button :loading="form.busy">
-                Log In
-              </v-button>
-
-            </div>
-          </div>
-        </form>
-      </card>
+    <div class="row">
+        <div class="col-lg-8 m-auto">
+            <b-card header="Log In">
+                <b-form @submit.prevent="login" @keydown="form.onKeydown($event)">
+                    <b-form-group
+                        label="Email:"
+                        label-for="email" >
+                        <b-form-input type="email" id="email" name="email" :class="{ 'is-invalid': form.errors.has('email') }" v-model="form.email"></b-form-input>
+                        <has-error :form="form" field="email" />
+                    </b-form-group>
+                    <b-form-group
+                        label="Password:"
+                        label-for="password" >
+                        <b-form-input type="password" id="password" name="password" :class="{ 'is-invalid': form.errors.has('password') }" v-model="form.password"></b-form-input>
+                        <has-error :form="form" field="password" />
+                    </b-form-group>
+                    <b-button type="submit" variant="primary">Log In</b-button>
+                </b-form>
+            </b-card>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
 import Form from 'vform'
-import Cookies from 'js-cookie'
 
 export default {
   components: {
   },
 
   middleware: 'guest',
-
-  metaInfo () {
-    return { title: 'Log In' }
-  },
 
   data: () => ({
     form: new Form({
@@ -69,19 +41,15 @@ export default {
 
   methods: {
     async login () {
-      // Submit the form.
       const { data } = await this.form.post('/api/login')
 
-      // Save the token.
       this.$store.dispatch('auth/saveToken', {
         token: data.token,
         remember: this.remember
       })
 
-      // Fetch the user.
       await this.$store.dispatch('auth/fetchUser')
 
-      // Redirect home.
       this.redirect()
     },
 

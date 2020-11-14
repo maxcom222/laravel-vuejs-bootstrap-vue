@@ -1,15 +1,11 @@
 <template>
-  <card :title="'Home'">
-      You are logged in
-  </card>
+    <b-card header="Home">
+        You are logged in
+    </b-card>
 </template>
 
 <script>
 export default {
   middleware: 'auth',
-
-  metaInfo () {
-    return { title: 'Home' }
-  }
 }
 </script>

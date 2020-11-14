@@ -1,56 +1,37 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card :title="'Register'">
-        <form @submit.prevent="register" @keydown="form.onKeydown($event)">
-          <!-- Name -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Name</label>
-            <div class="col-md-7">
-              <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
-              <has-error :form="form" field="name" />
-            </div>
-          </div>
-
-          <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Email</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Password</label>
-            <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-              <has-error :form="form" field="password" />
-            </div>
-          </div>
-
-          <!-- Password Confirmation -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Confirm Password</label>
-            <div class="col-md-7">
-              <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control" type="password" name="password_confirmation">
-              <has-error :form="form" field="password_confirmation" />
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-md-7 offset-md-3 d-flex">
-              <!-- Submit Button -->
-              <v-button :loading="form.busy">
-                  Register
-              </v-button>
-            </div>
-          </div>
-        </form>
-      </card>
+    <div class="row">
+        <div class="col-lg-8 m-auto">
+            <b-card header="Register">
+                <b-form @submit.prevent="register" @keydown="form.onKeydown($event)">
+                    <b-form-group
+                        label="Name:"
+                        label-for="name">
+                        <b-form-input type="text" id="name" name="name" :class="{ 'is-invalid': form.errors.has('name') }" v-model="form.name"></b-form-input>
+                        <has-error :form="form" field="name" />
+                    </b-form-group>
+                    <b-form-group
+                        label="Email:"
+                        label-for="email" >
+                        <b-form-input type="email" id="email" name="email" :class="{ 'is-invalid': form.errors.has('email') }" v-model="form.email"></b-form-input>
+                        <has-error :form="form" field="email" />
+                    </b-form-group>
+                    <b-form-group
+                        label="Password:"
+                        label-for="password" >
+                        <b-form-input type="password" id="password" name="password" :class="{ 'is-invalid': form.errors.has('password') }" v-model="form.password"></b-form-input>
+                        <has-error :form="form" field="password" />
+                    </b-form-group>
+                    <b-form-group
+                        label="Confirm Password:"
+                        label-for="password_confirmation" >
+                        <b-form-input type="password" id="password_confirmation" name="password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" v-model="form.password_confirmation"></b-form-input>
+                        <has-error :form="form" field="password_confirmation" />
+                    </b-form-group>
+                    <b-button type="submit" variant="primary">Register</b-button>
+                </b-form>
+            </b-card>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -61,10 +42,6 @@ export default {
   },
 
   middleware: 'guest',
-
-  metaInfo () {
-    return { title: 'Register' }
-  },
 
   data: () => ({
     form: new Form({
