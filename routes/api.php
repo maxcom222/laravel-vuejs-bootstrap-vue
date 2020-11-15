@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('user', [UserController::class, 'current']);
     Route::resource('posts', PostController::class);
+    Route::get('users', [UserController::class, 'getUsers']);
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
