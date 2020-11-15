@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -40,11 +41,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $rules = [
             'user_id' => 'required|integer|min:1',
             'title' => 'required|max:255',
             'description' => 'required'
+        ];
+        $validator = Validator::make($request->all(), $rules,  [
+            'user_id.min' => 'You must use the author correctly.'
         ]);
+        if ($validator->fails()) {
+            return response()->json(array("message"=> "The given data was invalid.", "errors" => $validator->getMessageBag()->getMessages()), 422);
+        }
         $post = Post::create([
             'user_id' => $request->user_id,
             'title' => $request->title,
@@ -63,11 +70,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $this->validate($request, [
-            'user_id' => 'required',
+        $rules = [
+            'user_id' => 'required|integer|min:1',
             'title' => 'required|max:255',
             'description' => 'required'
+        ];
+        $validator = Validator::make($request->all(), $rules,  [
+            'user_id.min' => 'You must use the author correctly.'
         ]);
+        if ($validator->fails()) {
+            return response()->json(array("message"=> "The given data was invalid.", "errors" => $validator->getMessageBag()->getMessages()), 422);
+        }
         $post->update([
             'user_id' => $request->user_id,
             'title' => $request->title,
