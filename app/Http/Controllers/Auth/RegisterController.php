@@ -27,7 +27,7 @@ class RegisterController extends Controller
      * The user has been registered.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
     protected function registered(Request $request, User $user)
@@ -50,7 +50,10 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email:filter|max:255|unique:users',
+            'hobbies' => 'required',
+            'phone' => 'required|integer',
             'password' => 'required|min:6|confirmed',
+            'country_id' => 'required'
         ]);
     }
 
@@ -58,13 +61,20 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
+        $splitName = explode(' ', $data['name'], 2);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'firstname' => $splitName[0],
+            'lastname' => $splitName[1] ?? '',
+            'hobbies' => $data['hobbies'],
+            'phone' => $data['phone'],
+            'country_id' => $data['country_id'],
             'password' => bcrypt($data['password']),
         ]);
     }
