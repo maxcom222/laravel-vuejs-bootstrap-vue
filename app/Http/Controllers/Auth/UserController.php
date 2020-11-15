@@ -17,4 +17,29 @@ class UserController extends Controller
     {
         return response()->json($request->user());
     }
+
+    /**
+     * Get countries.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCountries()
+    {
+        $countryArray = [
+            [
+                'id' => 1,
+                'name' => 'United Kingdom'
+            ],
+            [
+                'id' => 2,
+                'name' => 'China',
+            ],
+            [
+                'id' => 3,
+                'name' => 'United States'
+            ]
+        ];
+
+        return response()->json($countryArray);
+    }
 }
