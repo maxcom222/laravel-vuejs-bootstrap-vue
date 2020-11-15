@@ -14,9 +14,21 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-
-        return response()->json($posts);
+        $posts = Post::all()->load('user');
+        $result = [];
+        foreach ($posts as $post) {
+            array_push($result, [
+                'id' => $post->id,
+                'user_id' => $post->user_id,
+                'user_name' => $post->user->name,
+                'title' => $post->title,
+                'description' => $post->description,
+                'created_at' => $post->created_at,
+                'updated_at' => $post->updated_at,
+            ]);
+        }
+        
+        return response()->json($result);
     }
 
     /**
@@ -37,12 +49,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = $request->user()->posts()->create([
+        $post = Post::create([
+            'user_id' => $request->user_id,
             'title' => $request->title,
             'description' => $request->description
         ]);;
 
-        return response()->json($post);
+        return response()->json($post->load('user'));
     }
 
     /**
@@ -77,6 +90,7 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id)->update([
+            'user_id' => $request->user_id,
             'title' => $request->title,
             'description' => $request->description
         ]);;
