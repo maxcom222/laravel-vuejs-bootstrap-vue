@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,13 @@ use App\Http\Controllers\Auth\RegisterController;
 //     return $request->user();
 // });
 
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('logout', [LoginController::class, 'logout']);
+
+    Route::get('user', [UserController::class, 'current']);
+});
+
 Route::group(['middleware' => 'guest:api'], function () {
     Route::post('login', [LoginController::class, 'login']);
-    Route::post('logout', [LoginController::class, 'logout']);
     Route::post('register', [RegisterController::class, 'register']);
 });

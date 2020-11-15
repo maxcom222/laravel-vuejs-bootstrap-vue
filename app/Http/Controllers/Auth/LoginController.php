@@ -2,31 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\VerifyEmailException;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -39,56 +24,76 @@ class LoginController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Attempt to log the user into the application.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
      */
-    public function login()
+    protected function attemptLogin(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $token = auth('api')->attempt($this->credentials($request));
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (! $token) {
+            return false;
         }
 
-        return $this->respondWithToken($token);
+        $user = auth('api')->user();
+        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+            return false;
+        }
+        auth('api')->setToken($token);
+
+        return true;
     }
 
     /**
-     * Refresh a token.
+     * Send the response after the user was authenticated.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    protected function sendLoginResponse(Request $request)
     {
-        return $this->respondWithToken(auth()->refresh());
-    }
+        $this->clearLoginAttempts($request);
 
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
+        $token = (string) auth('api')->getToken();
+        $expiration = auth('api')->getPayload()->get('exp');
+
         return response()->json([
-            'access_token' => $token,
+            'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => $expiration - time(),
         ]);
     }
 
     /**
-     * Log the user out (Invalidate the token).
+     * Get the failed login response instance.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function logout()
+    protected function sendFailedLoginResponse(Request $request)
     {
-        auth()->logout();
+        $user = auth('api')->user();
+        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+            throw VerifyEmailException::forUser($user);
+        }
 
-        return response()->json(['message' => 'Successfully logged out']);
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        auth('api')->logout();
     }
 }
