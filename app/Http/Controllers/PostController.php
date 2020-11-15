@@ -49,6 +49,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'user_id' => 'required',
+            'title' => 'required|max:255',
+            'description' => 'required'
+        ]);
         $post = Post::create([
             'user_id' => $request->user_id,
             'title' => $request->title,
@@ -89,6 +94,11 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'user_id' => 'required',
+            'title' => 'required|max:255',
+            'description' => 'required'
+        ]);
         $post = Post::find($id)->update([
             'user_id' => $request->user_id,
             'title' => $request->title,
