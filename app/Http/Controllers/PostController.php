@@ -27,7 +27,7 @@ class PostController extends Controller
                 'updated_at' => $post->updated_at,
             ]);
         }
-        
+
         return response()->json($result);
     }
 
@@ -95,7 +95,7 @@ class PostController extends Controller
             'description' => $request->description
         ]);;
 
-        return response()->json($post);
+        return response()->json($post->load('user'));
     }
 
     /**
