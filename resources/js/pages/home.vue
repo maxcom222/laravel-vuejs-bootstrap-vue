@@ -13,11 +13,11 @@
                 <b-form-group
                     label="Author:"
                     label-for="author">
-                    <b-form-select id="author" name="author" :class="{ 'is-invalid': form.errors.has('author') }" v-model="form.author" :options="options"></b-form-select>
-<!--                    <b-form-input id="user" name="user" :class="{ 'is-invalid': form.errors.has('user') }" v-model="form.user" list="my-list-id"></b-form-input>-->
-<!--                    <datalist id="my-list-id">-->
-<!--                        <option v-for="option in options">{{ option.text }}</option>-->
-<!--                    </datalist>-->
+<!--                    <b-form-select id="author" name="author" :class="{ 'is-invalid': form.errors.has('author') }" v-model="form.author" :options="options"></b-form-select>-->
+                    <b-form-input id="author" name="author" :class="{ 'is-invalid': form.errors.has('author') }" v-model="form.user" list="my-list-id"></b-form-input>
+                    <datalist id="my-list-id">
+                        <option v-for="option in options">{{ option.text }}</option>
+                    </datalist>
                     <has-error :form="form" field="author" />
                 </b-form-group>
                 <b-form-group
