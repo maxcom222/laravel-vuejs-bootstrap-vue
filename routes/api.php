@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\Auth\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,11 +25,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
 
     Route::get('user', [UserController::class, 'current']);
-    Route::get('countries', [UserController::class, 'getCountries']);
     Route::resource('posts', PostController::class);
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
     Route::post('login', [LoginController::class, 'login']);
     Route::post('register', [RegisterController::class, 'register']);
+    Route::get('countries', [UserController::class, 'getCountries']);
 });
