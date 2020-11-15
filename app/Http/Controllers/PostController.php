@@ -41,9 +41,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required|integer|min:1',
+            'user_id' => 'required|min:1',
             'title' => 'required|max:255',
             'description' => 'required'
+        ],
+        [
+            'user_id.min:1' => 'You have to select author correctly.'
         ]);
         $post = Post::create([
             'user_id' => $request->user_id,
@@ -64,9 +67,12 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $this->validate($request, [
-            'user_id' => 'required',
+            'user_id' => 'required|min:1',
             'title' => 'required|max:255',
             'description' => 'required'
+        ],
+        [
+            'user_id.min:1' => 'You have to select author correctly.'
         ]);
         $post->update([
             'user_id' => $request->user_id,
