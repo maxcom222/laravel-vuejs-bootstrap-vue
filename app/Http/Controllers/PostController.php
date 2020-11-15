@@ -86,6 +86,8 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return response()->json();
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 }
