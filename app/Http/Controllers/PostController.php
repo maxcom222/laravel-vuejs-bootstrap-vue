@@ -37,9 +37,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        Post::create([
-            ''
-        ]);
+        $post = $request->user()->posts()->create([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);;
+
+        return response()->json($post);
     }
 
     /**
@@ -73,7 +76,12 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id)->update([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);;
+
+        return response()->json($post);
     }
 
     /**
@@ -84,6 +92,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Post::find($id)->delete();
+
+        return response()->json();
     }
 }
