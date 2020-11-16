@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Country;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Country as CountryResource;
 
 class UserController extends Controller
 {
@@ -130,39 +132,6 @@ class UserController extends Controller
      */
     public function getCountries()
     {
-        $countryArray = [
-            [
-                'id' => 1,
-                'name' => 'United Kingdom'
-            ],
-            [
-                'id' => 2,
-                'name' => 'China',
-            ],
-            [
-                'id' => 3,
-                'name' => 'United States'
-            ]
-        ];
-
-        return response()->json($countryArray);
+        return CountryResource::collection(Country::all());
     }
-
-    /**
-     * 
-     */
-    // public function getUsers()
-    // {
-    //     $users = User::all();
-    //     $result = [];
-    //     foreach ($users as $user) {
-    //         array_push($result, [
-    //             'id' => $user->id,
-    //             'name' => $user->name
-    //         ]);
-    //     }
-
-    //     return response()->json($result);
-
-    // }
 }

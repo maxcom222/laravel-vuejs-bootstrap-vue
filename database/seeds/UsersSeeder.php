@@ -13,12 +13,14 @@ class UsersSeeder extends Seeder
     public function run()
     {
         User::create([
-            "name" => "Ruyun Li",
+            "name" => "Super Admin",
             "email" => "admin1@admin.com",
+            "firstname" => "Super",
+            "lastname" => "Admin",
             "password" => "password",
             "hobbies" => "test",
             "phone" => "123123123123123123",
-            "country_id" => 11
+            "country_id" => 2
         ]);
     }
 }

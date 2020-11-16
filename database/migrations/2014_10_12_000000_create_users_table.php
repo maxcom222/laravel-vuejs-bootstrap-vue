@@ -21,7 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('lastname');
             $table->string('hobbies');
             $table->string('phone');
-            $table->integer('country_id');
+            $table->foreignId('country_id')
+                ->constrained('users');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -66,4 +67,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Post::class, 'user_id', 'id');
     }
+
+    /**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function country(): BelongsTo
+	{
+		return $this->belongsTo(Country::class, 'country_id', 'id');
+	}
 }
