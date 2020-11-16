@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
             "lastname" => "Admin",
             "password" => "password",
             "hobbies" => "test",
-            "phone" => "123123123123123123",
+            "phone" => "9999999999",
             "country_id" => 2
         ]);
     }
