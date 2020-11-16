@@ -10,7 +10,6 @@ export default [
   { path: '/users/edit', name: 'edit_user', component: page('users/edit.vue') },
 
   { path: '/login', name: 'login', component: page('auth/login.vue') },
-  { path: '/register', name: 'register', component: page('auth/register.vue') },
 
   { path: '*', component: page('errors/404.vue') }
 ]
