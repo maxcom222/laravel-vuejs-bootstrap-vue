@@ -44,11 +44,12 @@ class PostController extends Controller
         $rules = [
             'user_id' => 'required|integer|min:1',
             'title' => 'required|max:255',
-            'description' => 'required'
+            'description' => 'required|regex:/^([a-z0-9]+)$/'
         ];
         $validator = Validator::make($request->all(), $rules,  [
             'user_id.required' => 'You must select the author correctly.',
-            'user_id.min' => 'You must use the author correctly.'
+            'user_id.min' => 'You must use the author correctly.',
+            'description.regex' => 'No HTML tags are allowed.'
         ]);
         if ($validator->fails()) {
             return response()->json(array("message"=> "The given data was invalid.", "errors" => $validator->getMessageBag()->getMessages()), 422);
@@ -74,10 +75,12 @@ class PostController extends Controller
         $rules = [
             'user_id' => 'required|integer|min:1',
             'title' => 'required|max:255',
-            'description' => 'required'
+            'description' => 'required|regex:/^([a-z0-9]+)$/'
         ];
         $validator = Validator::make($request->all(), $rules,  [
-            'user_id.min' => 'You must use the author correctly.'
+            'user_id.required' => 'You must select the author correctly.',
+            'user_id.min' => 'You must use the author correctly.',
+            'description.regex' => 'No HTML tags are allowed.'
         ]);
         if ($validator->fails()) {
             return response()->json(array("message"=> "The given data was invalid.", "errors" => $validator->getMessageBag()->getMessages()), 422);
