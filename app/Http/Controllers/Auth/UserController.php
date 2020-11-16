@@ -62,7 +62,7 @@ class UserController extends Controller
             'email' => $request->email,
             'firstname' => $splitName[0],
             'lastname' => $splitName[1] ?? '',
-            'hobbies' => $request->hobbies,
+            'hobbies' => serialize($request->hobbies),
             'phone' => $request->phone,
             'country_id' => $request->country_id,
             'password' => bcrypt($request->password),

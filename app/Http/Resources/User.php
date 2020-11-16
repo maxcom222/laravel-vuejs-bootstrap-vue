@@ -20,7 +20,7 @@ class User extends JsonResource
             'email' => $this->email,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
-            'hobbies' => $this->hobbies,
+            'hobbies' => unserialize($this->hobbies),
             'phone' => $this->phone,
             'country' => $this->country,
             'email_verified_at' => $this->email_verified_at,
