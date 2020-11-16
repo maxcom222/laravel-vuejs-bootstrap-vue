@@ -5,12 +5,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
-
+import toast from '../mixins/message'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(FormSelectPlugin)
 Vue.use(Vuex)
+
+Vue.mixin(toast)
 
 Vue.component('v-select', vSelect)
 

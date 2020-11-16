@@ -10,7 +10,6 @@
                     <b-form-input
                         type="text"
                         id="title"
-                        name="title"
                         :class="{ 'is-invalid': form.errors.has('title') }"
                         v-model="form.title">
                     </b-form-input>
@@ -23,7 +22,6 @@
                     label-for="user_id">
                     <v-select
                         id="user_id"
-                        name="user_id"
                         v-model="form.user_id"
                         :searchable="true"
                         :clearable="false"
@@ -41,7 +39,6 @@
                     label-for="description">
                     <b-form-textarea
                         id="description"
-                        name="description"
                         :class="{ 'is-invalid': form.errors.has('description') }"
                         v-model="form.description"
                         rows="3"
@@ -85,7 +82,6 @@
                     <b-form-input
                         type="text"
                         id="edit_title"
-                        name="edit_title"
                         :class="{ 'is-invalid': editform.errors.has('title') }"
                         v-model="editform.title">
                     </b-form-input>
@@ -98,7 +94,6 @@
                     label-for="edit_user_id">
                     <v-select
                         id="edit_user_id"
-                        name="edit_user_id"
                         v-model="editform.user_id"
                         :searchable="true"
                         :clearable="false"
@@ -116,7 +111,6 @@
                     label-for="edit_description">
                     <b-form-textarea
                         id="edit_description"
-                        name="edit_description"
                         :class="{ 'is-invalid': editform.errors.has('description') }"
                         v-model="editform.description"
                         rows="3"
@@ -216,55 +210,31 @@ export default {
             const { data } = await this.form.post('/api/posts')
             if (data.id > 0)
             {
-                this.$bvToast.toast('The post was created successfully', {
-                    title: `Notification`,
-                    variant: 'success',
-                    solid: true
-                })
+                this.$show_message(`Notification`, 'The post was created successfully', 'success');
                 this.create_modal_show = false;
                 this.loadPosts();
             } else {
-                this.$bvToast.toast('Post creating operation was failed', {
-                    title: `Notification`,
-                    variant: 'danger',
-                    solid: true
-                })
+                this.$show_message(`Notification`, 'Post creating operation was failed', 'danger');
             }
         },
         async save_post() {
             const { data } = await this.editform.post('/api/posts/' + this.editform.id)
             if (data.id > 0)
             {
-                this.$bvToast.toast('The post was updated successfully', {
-                    title: `Notification`,
-                    variant: 'success',
-                    solid: true
-                })
+                this.$show_message(`Notification`, 'The post was updated successfully', 'success');
                 this.edit_modal_show = false;
                 this.loadPosts();
             } else {
-                this.$bvToast.toast('Post updating operation was failed', {
-                    title: `Notification`,
-                    variant: 'danger',
-                    solid: true
-                })
+                this.$show_message(`Notification`, 'Post updating operation was failed', 'danger');
             }
         },
         async deleteItem(id) {
             const { data } = await this.editform.delete('/api/posts/' + id)
             if (data.status === "success")
             {
-                this.$bvToast.toast('The post was deleted successfully', {
-                    title: `Notification`,
-                    variant: 'success',
-                    solid: true
-                })
+                this.$show_message(`Notification`, 'The post was deleted successfully', 'success');
             } else {
-                this.$bvToast.toast('Post deleting operation was failed', {
-                    title: `Notification`,
-                    variant: 'danger',
-                    solid: true
-                })
+                this.$show_message(`Notification`, 'Post deleting operation was failed', 'danger');
             }
             this.loadPosts();
         }
