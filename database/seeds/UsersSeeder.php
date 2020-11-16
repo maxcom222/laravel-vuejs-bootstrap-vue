@@ -18,7 +18,11 @@ class UsersSeeder extends Seeder
             "firstname" => "Super",
             "lastname" => "Admin",
             "password" => bcrypt('password'),
-            "hobbies" => "test",
+            "hobbies" => serialize([
+                "Soccer",
+                "Game",
+                "Watching"
+            ]),
             "phone" => "9999999999",
             "country_id" => 2
         ]);
