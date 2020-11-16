@@ -47,6 +47,7 @@ class PostController extends Controller
             'description' => 'required'
         ];
         $validator = Validator::make($request->all(), $rules,  [
+            'user_id.required' => 'You must select the author correctly.',
             'user_id.min' => 'You must use the author correctly.'
         ]);
         if ($validator->fails()) {
