@@ -14,7 +14,7 @@ class UsersSeeder extends Seeder
     {
         User::create([
             "name" => "Super Admin",
-            "email" => "admin1@admin.com",
+            "email" => "admin@admin.com",
             "firstname" => "Super",
             "lastname" => "Admin",
             "password" => "password",
