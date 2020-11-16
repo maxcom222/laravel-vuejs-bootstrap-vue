@@ -30,6 +30,7 @@
                         :reduce="author => author.id"
                         :get-option-label="getOptionLabel">
                     </v-select>
+<!--                    class="p-0 form-control"-->
                     <has-error
                         :form="form"
                         field="user_id" />
@@ -163,9 +164,11 @@
 
 <script>
 import Form from "vform";
+import toast from '../mixins/message'
 
 export default {
     middleware: 'auth',
+    mixins: [toast],
     data() {
         return {
             create_modal_show: false,
