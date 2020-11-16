@@ -111,6 +111,17 @@ class UserController extends Controller
     }
 
     /**
+     * Show the form for editing User
+     * 
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(User $user)
+    {
+        return new UserResource($user);
+    }
+
+    /**
      * Remove the specified user from storage.
      * 
      * @param \App\Models\User $user

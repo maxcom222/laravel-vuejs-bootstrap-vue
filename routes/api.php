@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // User module
     Route::get('user', 'Auth\UserController@current');
     Route::get('users', 'Auth\UserController@index');
+    Route::get('users/{user}', 'Auth\UserController@show');
     Route::post('users', 'Auth\UserController@store');
     Route::post('users/{user}', 'Auth\UserController@update');
     Route::delete('users/{user}', 'Auth\UserController@destory');
