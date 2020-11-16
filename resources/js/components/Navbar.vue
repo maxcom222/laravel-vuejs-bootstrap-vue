@@ -1,29 +1,27 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <b-navbar v-if="user" type="light" variant="light">
         <div class="container">
-            <div id="navbarToggler" class="collapse navbar-collapse">
-                <b-nav pills>
-                    <b-nav-item v-if="user" @click.prevent="logout">
-                        <b-link :to="{ name: 'login' }">
-                            Log Out
-                        </b-link>
-                    </b-nav-item>
-                    <template v-else>
-                        <b-nav-item>
-                            <b-link :to="{ name: 'login' }">
-                                Log In
-                            </b-link>
-                        </b-nav-item>
-                        <b-nav-item>
-                            <b-link :to="{ name: 'register' }">
-                                Register
-                            </b-link>
-                        </b-nav-item>
-                    </template>
-                </b-nav>
-            </div>
+            <b-navbar-nav class="ml-2">
+                <b-nav-item>
+                    <b-link :to="{name: 'users'}">
+                        Users
+                    </b-link>
+                </b-nav-item>
+                <b-nav-item>
+                    <b-link :to="{name: 'posts'}">
+                        Posts
+                    </b-link>
+                </b-nav-item>
+            </b-navbar-nav>
+            <b-navbar-nav>
+                <b-nav-item @click.prevent="logout" right>
+                    <b-link>
+                        Log Out
+                    </b-link>
+                </b-nav-item>
+            </b-navbar-nav>
         </div>
-    </nav>
+    </b-navbar>
 </template>
 
 <script>

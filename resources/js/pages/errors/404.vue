@@ -4,7 +4,7 @@
             Page Not Found
         </h3>
         <div class="links">
-            <router-link :to="{ name: 'home' }">
+            <router-link :to="{ name: 'posts' }">
                 Go Home
             </router-link>
         </div>

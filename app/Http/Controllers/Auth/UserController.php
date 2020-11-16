@@ -35,7 +35,7 @@ class UserController extends Controller
 
     /**
      * Store a newly created user in storage.
-     * 
+     *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -73,7 +73,7 @@ class UserController extends Controller
 
     /**
      * Update the specified user in storage
-     * 
+     *
      * @param  \Illuminate\Http\Request $request
      * @param \App\Models\User $user
      * @return \Illuminate\Http\JsonResponse
@@ -82,10 +82,9 @@ class UserController extends Controller
     {
         $rules = [
             'name' => 'required|max:255',
-            'email' => 'required|email:filter|max:255|unique:users',
+            'email' => 'required|email:filter|max:255|unique:users,email,'.$user->id,
             'hobbies' => 'required',
             'phone' => 'required|digits:10',
-            'password' => 'required|min:6',
             'country_id' => 'required'
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -101,7 +100,7 @@ class UserController extends Controller
             'email' => $request->email,
             'firstname' => $splitName[0],
             'lastname' => $splitName[1] ?? '',
-            'hobbies' => $request->hobbies,
+            'hobbies' => serialize($request->hobbies),
             'phone' => $request->phone,
             'country_id' => $request->country_id,
             'password' => bcrypt($request->password),
@@ -112,7 +111,7 @@ class UserController extends Controller
 
     /**
      * Show the form for editing User
-     * 
+     *
      * @param \App\Models\User $user
      * @return \Illuminate\Http\JsonResponse
      */
@@ -123,7 +122,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified user from storage.
-     * 
+     *
      * @param \App\Models\User $user
      * @return \Illuminate\Http\JsonResponse
      */

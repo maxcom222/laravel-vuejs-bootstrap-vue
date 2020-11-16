@@ -30,7 +30,6 @@
                         :reduce="author => author.id"
                         :get-option-label="getOptionLabel">
                     </v-select>
-<!--                    class="p-0 form-control"-->
                     <has-error
                         :form="form"
                         field="user_id" />
@@ -158,11 +157,16 @@
                     Delete
                 </b-button>
             </template>
+            <template
+                #cell(user)="data" >
+                {{ data.value.name }}
+            </template>
         </b-table>
     </b-card>
 </template>
 
 <script>
+import axios from 'axios'
 import Form from "vform";
 import toast from '../mixins/message'
 
@@ -173,7 +177,7 @@ export default {
         return {
             create_modal_show: false,
             edit_modal_show: false,
-            fields: ['title', 'user_name', 'description', 'action'],
+            fields: ['title', 'user', 'description', 'action'],
             items: [],
             authors: [],
             form: new Form({
@@ -194,35 +198,38 @@ export default {
             return (option && option.name) || ''
         },
         async loadAuth () {
-            const { data } = await this.form.get('/api/users')
-            this.authors = data;
+            const { data } = await axios.get('/api/users')
+            this.authors = data.data;
         },
         async loadPosts () {
-            const { data } = await this.form.get('/api/posts')
-            this.items = data;
+            const { data } = await axios.get('/api/posts')
+            this.items = data.data;
         },
         openModal(item_id) {
             let item = this.items.find(({id})=>id===item_id)
             this.edit_modal_show = true
             this.editform.id = item.id
             this.editform.title = item.title
-            this.editform.user_id = item.user_id
+            this.editform.user_id = item.user.id
             this.editform.description = item.description
         },
         async create_post() {
             const { data } = await this.form.post('/api/posts')
-            if (data.id > 0)
+            if (data.data.id > 0)
             {
                 this.$show_message(`Notification`, 'The post was created successfully', 'success');
                 this.create_modal_show = false;
                 this.loadPosts();
+                this.form.title = ""
+                this.form.user_id = 0
+                this.form.description = ""
             } else {
                 this.$show_message(`Notification`, 'Post creating operation was failed', 'danger');
             }
         },
         async save_post() {
             const { data } = await this.editform.post('/api/posts/' + this.editform.id)
-            if (data.id > 0)
+            if (data.data.id > 0)
             {
                 this.$show_message(`Notification`, 'The post was updated successfully', 'success');
                 this.edit_modal_show = false;

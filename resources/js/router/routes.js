@@ -3,7 +3,11 @@ function page (path) {
 }
 
 export default [
-  { path: '/', name: 'home', component: page('home.vue') },
+  { path: '/', name: 'posts', component: page('posts.vue') },
+
+  { path: '/users', name: 'users', component: page('users/users.vue') },
+  { path: '/users/create', name: 'create_user', component: page('users/create.vue') },
+  { path: '/users/edit', name: 'edit_user', component: page('users/edit.vue') },
 
   { path: '/login', name: 'login', component: page('auth/login.vue') },
   { path: '/register', name: 'register', component: page('auth/register.vue') },
