@@ -30,7 +30,7 @@ class PostController extends Controller
         $rules = [
             'user_id' => 'required|integer|min:1',
             'title' => 'required|max:255',
-            'description' => 'required|regex:/^([a-z0-9]+)$/'
+            'description' => 'required|regex:/^((?!<).)*$/s|regex:/^((?!>).)*$/s'
         ];
         $validator = Validator::make($request->all(), $rules,  [
             'user_id.required' => 'You must select the author correctly.',
@@ -64,7 +64,7 @@ class PostController extends Controller
         $rules = [
             'user_id' => 'required|integer|min:1',
             'title' => 'required|max:255',
-            'description' => 'required|regex:/^([a-z0-9]+)$/'
+            'description' => 'required|regex:/^((?!<).)*$/s|regex:/^((?!>).)*$/s'
         ];
         $validator = Validator::make($request->all(), $rules,  [
             'user_id.required' => 'You must select the author correctly.',
