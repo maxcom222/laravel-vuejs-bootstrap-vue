@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('users', 'Auth\UserController@store');
     Route::post('users/{user}', 'Auth\UserController@update');
     Route::delete('users/{user}', 'Auth\UserController@destory');
-    Route::get('users/countries', 'Auth\UserController@getCountries');
+    Route::get('countries', 'Auth\UserController@getCountries');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
